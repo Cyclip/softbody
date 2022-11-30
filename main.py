@@ -4,6 +4,7 @@ from softbody import Softbody
 from masspoint import MassPoint
 from spring import Spring
 from polygon import Polygon
+import generators
 
 # ============================ MASSES ============================ #
 sb = Softbody(
@@ -26,13 +27,46 @@ sb.springs = [
 
 # =========================== POLYGONS =========================== #
 polygons = [
+    # Floor
     Polygon([
-        np.array([10, 100]),
-        np.array([200, 100]),
-        np.array([200, 200]),
-        np.array([10, 200]),
-    ])
+        np.array([100, 500]),
+        np.array([700, 500]),
+        np.array([700, 550]),
+        np.array([100, 550]),
+    ]),
+
+    # Platform
+    Polygon([
+        np.array([200, 350]),
+        np.array([400, 350]),
+        np.array([400, 400]),
+        np.array([200, 400]),
+    ]),
+
+    # Right slide
+    Polygon([
+        np.array([500, 300]),
+        np.array([700, 150]),
+        np.array([737, 200]),
+        np.array([537, 350]),
+    ]),
+
+    # Vertical platform left
+    Polygon([
+        np.array([100, 100]),
+        np.array([150, 100]),
+        np.array([150, 250]),
+        np.array([100, 250]),
+    ]),
+
+    # Circle
+    Polygon(generators.polygonGen.genCircle(np.array([350, 200]), 50),)
 ]
 
-simulation = Simulation([sb,], polygons)
+softbodies = [
+    # sb,
+    generators.softbodyGen.genCuboid(3, 3, 25, offset=np.array([200, 200])),
+]
+
+simulation = Simulation(softbodies, polygons, speed=1)
 simulation.run()

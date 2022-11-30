@@ -11,7 +11,7 @@ class Spring:
         self.dampingFactor = dampingFactor
         self.id = f"Spring({genID()})"
 
-        print(f"[{self.id}] Initialised with {self.masspoint1.id} and {self.masspoint2.id}")
+        # print(f"[{self.id}] Initialised with {self.masspoint1.id} and {self.masspoint2.id}")
     
     def update(self, dt):
         """Update the spring. This will add spring forces to the mass points"""
@@ -23,7 +23,7 @@ class Spring:
         # Add the force to the mass points
         self.masspoint1.add_force(totalForce * self.direction())
         self.masspoint2.add_force(-totalForce * self.direction())
-        print(f"[{self.id}] Force: {force}, Damping Force: {dampingForce}, Direction: {self.direction()}")
+        # print(f"[{self.id}] Force: {force}, Damping Force: {dampingForce}, Direction: {self.direction()}")
     
     def length(self):
         """Calculate the length of the spring"""
@@ -41,4 +41,12 @@ class Spring:
     
     def draw(self, surface):
         """Draw the spring"""
-        pygame.draw.line(surface, pygame.Color("white"), self.masspoint1.position.astype(int), self.masspoint2.position.astype(int))
+        # If mouse is hovering over
+        pos = np.array(pygame.mouse.get_pos())
+        dist = 5
+        if np.linalg.norm(pos - self.masspoint1.position) < dist or np.linalg.norm(pos - self.masspoint2.position) < 10:
+            color = pygame.Color("green")
+        else:
+            color = pygame.Color("white")
+
+        pygame.draw.line(surface, color, self.masspoint1.position.astype(int), self.masspoint2.position.astype(int))

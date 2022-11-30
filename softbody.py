@@ -1,10 +1,14 @@
 import numpy as np
+from classid import genID
 
 class Softbody:
     def __init__(self, points, springs=[]):
         self.points = points
         self.springs = springs
-        self.gravity = np.array([0, 9.81]) * 2
+        self.gravity = np.array([0, 9.81])
+        self.id = f"Softbody({genID()})"
+
+        print(f"[{self.id}] Created with points: {[i.id for i in self.points]} and springs {[i.id for i in self.springs]}")
     
     def update(self, dt, polygons):
         """Update the softbody"""
@@ -32,7 +36,7 @@ class Softbody:
         for point in self.points:
             point.check_polygon_collisions(polygons, dt)
 
-        print(f"All points: {[i.position for i in self.points]}")
+        # print(f"All points: {[i.position for i in self.points]}")
         
     def draw(self, surface):
         """Draw the softbody"""

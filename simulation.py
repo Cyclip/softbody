@@ -1,20 +1,21 @@
 import pygame
 import numpy as np
+import constants
 
 pygame.init()
 
 pygame.display.set_caption("Softbody Simulation")
 window_surface = pygame.display.set_mode((800, 600))
 
-background = pygame.Surface((800, 600))
-background.fill(pygame.Color("black"))
+background = pygame.Surface(constants.SIZE)
+background.fill(constants.BG_COL)
 
 # ========================== SIMULATION ========================== #
 class Simulation:
-    def __init__(self, softbodies, polygons):
+    def __init__(self, softbodies, polygons, speed=1):
         self.softbodies = softbodies
         self.polygons = polygons
-        self.speed = 1
+        self.speed = speed
         self.mousePower = 1000
     
     def run(self):
@@ -97,7 +98,7 @@ class Simulation:
                 softbody.draw(window_surface)
             
             # Draw speed
-            speed_text = font.render(f"{self.speed}x speed    {'Pushing' if mousePushing else ''}", True, pygame.Color("white"), (0, 0, 0))
+            speed_text = font.render(f"{self.speed}x speed    {'Pushing' if mousePushing else ''}", True, pygame.Color("white"))
             window_surface.blit(speed_text, (10, 10))
 
             pygame.display.update()

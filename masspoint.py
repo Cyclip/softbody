@@ -18,13 +18,13 @@ class MassPoint:
     def add_force(self, force):
         """Add a force to the mass point after zeroing the force"""
         self.force += force
-        print(f"[{self.id}] Force: {self.force} (+{force})")
+        # print(f"[{self.id}] Force: {self.force} (+{force})")
     
     def check_polygon_collision(self, polygon, dt):
         """Check if the mass point collides with the polygon"""
         if polygon.contains(self.position):
-            self.position -= self.velocity * dt
-            self.velocity *= -0.2
+            self.position -= self.velocity * dt * 2
+            self.velocity *= -1
 
             return True
         
@@ -42,13 +42,19 @@ class MassPoint:
     
     def update_position(self, dt):
         """Update the position of the mass point"""
-        print(f"[{self.id}] Position({self.position.dtype}), Velocity({self.velocity.dtype})")
+        # print(f"[{self.id}] Position({self.position.dtype}), Velocity({self.velocity.dtype})")
         self.position += self.velocity * dt
-        print(f"[{self.id}] Position: {self.position} (+{self.velocity * dt})")
+        # print(f"[{self.id}] Position: {self.position} (+{self.velocity * dt})")
     
     def draw(self, surface):
         """Draw the mass point"""
         pygame.draw.circle(surface, self.color, self.position.astype(int), 3)
 
+        # If hover, show name
+        pos = np.array(pygame.mouse.get_pos())
+        if np.linalg.norm(pos - self.position) < 10:
+            text = pygame.font.SysFont("Arial", 12).render(self.id, True, self.color)
+            surface.blit(text, self.position.astype(int))
+
         # Draw force arrow
-        pygame.draw.line(surface, pygame.Color("blue"), self.position.astype(int), (self.position + self.force).astype(int), 1)
+        pygame.draw.line(surface, pygame.Color("blue"), self.position.astype(int), ((self.position + self.force)).astype(int), 1)
