@@ -57,4 +57,4 @@ class MassPoint:
             surface.blit(text, self.position.astype(int))
 
         # Draw force arrow
-        pygame.draw.line(surface, pygame.Color("blue"), self.position.astype(int), ((self.position + self.force)).astype(int), 1)
+        # pygame.draw.line(surface, pygame.Color("blue"), self.position.astype(int), ((self.position + self.force)).astype(int), 1)

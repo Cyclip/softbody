@@ -5,7 +5,7 @@ class Softbody:
     def __init__(self, points, springs=[]):
         self.points = points
         self.springs = springs
-        self.gravity = np.array([0, 9.81])
+        self.gravity = np.array([0, 9.81]) * 2
         self.id = f"Softbody({genID()})"
 
         print(f"[{self.id}] Created with points: {[i.id for i in self.points]} and springs {[i.id for i in self.springs]}")

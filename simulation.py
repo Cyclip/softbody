@@ -16,7 +16,7 @@ class Simulation:
         self.softbodies = softbodies
         self.polygons = polygons
         self.speed = speed
-        self.mousePower = 1000
+        self.mousePower = 10000
     
     def run(self):
         running = True
@@ -61,13 +61,6 @@ class Simulation:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
                     # Push all points away from the mouse
                     # p α 1/d²
-                    pos = np.array(pygame.mouse.get_pos(), dtype=float)
-                    for softbody in self.softbodies:
-                        for point in softbody.points:
-                            distance = np.linalg.norm(point.position - pos)
-                            if distance < 1000:
-                                point.add_force((point.position - pos) * self.mousePower / distance ** 2)
-
                     mousePushing = True
                 elif event.type == pygame.MOUSEBUTTONUP and event.button == 3:
                     mousePushing = False
@@ -88,6 +81,18 @@ class Simulation:
             if lockedPoint:
                 lockedPoint.velocity = np.array([0, 0], dtype=float)
                 lockedPoint.position = np.array(pygame.mouse.get_pos(), dtype=float)
+            
+            # If mouse pushing
+            if mousePushing:
+                pos = np.array(pygame.mouse.get_pos(), dtype=float)
+                for softbody in self.softbodies:
+                    for point in softbody.points:
+                        distance = np.linalg.norm(point.position - pos)
+                        if distance < 200:
+                            force = (pos - point.position) * self.mousePower / distance ** 2
+                            velocity = force / point.mass * dt
+                            point.velocity -= velocity
+                            print(f"Pushing point {point.id} with force {(pos - point.position) * self.mousePower / distance ** 2}")
 
             # Draw polygons
             for polygon in self.polygons:

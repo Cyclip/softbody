@@ -65,7 +65,7 @@ polygons = [
 
 softbodies = [
     # sb,
-    generators.softbodyGen.genCuboid(3, 3, 25, offset=np.array([200, 200])),
+    generators.softbodyGen.genCuboid(2, 2, 25, offset=np.array([200, 200]), stiffness=200),
 ]
 
 simulation = Simulation(softbodies, polygons, speed=1)
